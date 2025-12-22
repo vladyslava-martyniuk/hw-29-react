@@ -1,53 +1,41 @@
-import { Component } from "react";
-export class ContactsEditor extends Component {
-  state = {
-    name: "",
-    number: "",
-  };
+import { useState } from "react";
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
+export const ContactsEditor = ({ onSubmit }) => {
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
-    this.setState({ name: "", number: "" });
+    onSubmit({ name, number });
+    setName("");
+    setNumber("");
   };
 
-  render() {
-    const { name, number } = this.state;
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.handleChange}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Number:
-          <input
-            type="text"
-            name="number"
-            value={number}
-            onChange={this.handleChange}
-            required
-          />
-        </label>{" "}
-        <br />
-        <button type="submit" className="button-add">
-          Add contact
-        </button>
-      </form>
-    );
-  }
-}
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </label>
+      <br />
 
-export default ContactsEditor;
+      <label>
+        Number:
+        <input
+          type="text"
+          value={number}
+          onChange={(e) => setNumber(e.target.value)}
+          required
+        />
+      </label>
+      <br />
+
+      <button type="submit">Add contact</button>
+    </form>
+  );
+};
