@@ -1,14 +1,17 @@
 import { useState } from "react";
 
 export const ContactsEditor = ({ onSubmit }) => {
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
+  const [contact, setContact] = useState({ name: "", number: "" });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setContact((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, number });
-    setName("");
-    setNumber("");
+    onSubmit(contact);
+    setContact({ name: "", number: "" });
   };
 
   return (
@@ -17,8 +20,9 @@ export const ContactsEditor = ({ onSubmit }) => {
         Name:
         <input
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="name"
+          value={contact.name}
+          onChange={handleChange}
           required
         />
       </label>
@@ -28,8 +32,9 @@ export const ContactsEditor = ({ onSubmit }) => {
         Number:
         <input
           type="text"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
+          name="number"
+          value={contact.number}
+          onChange={handleChange}
           required
         />
       </label>
